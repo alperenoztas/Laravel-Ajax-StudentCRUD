@@ -30,7 +30,9 @@ class StudentController extends Controller
 
         Student::create($stuData);
 
-
-        return response()->json($stuData, 200);
+        return response()->json([
+            'status'=>200,
+            'message'=>'Successful'
+        ]);
     }
 }
