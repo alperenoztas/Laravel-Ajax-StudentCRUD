@@ -15,9 +15,9 @@ class StudentController extends Controller
 
     //add student method ajax
     public function store(Request $request){
-        $file = $request->file('avatar');
-        $fileName = time().'.'.$file->getClientOriginalExtension();
-        $file->storeAs('public/images',$fileName);
+        //$file = $request->file('avatar');
+        //$fileName = time().'.'.$file->getClientOriginalExtension();
+        //$file->storeAs('public/images',$fileName);
 
         $stuData = [
             'student_id' => $request->student_id,
@@ -25,7 +25,7 @@ class StudentController extends Controller
             'last_name' => $request->lname,
             'email' => $request->email,
             'phone' => $request->phone,
-            'avatar' => $fileName,
+            //'avatar' => $fileName,
         ];
 
         Student::create($stuData);
