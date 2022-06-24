@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CRUD Application with Image Upload AJAX</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -28,7 +29,7 @@
                         <div class="row">
                             <div class="my-2">
                                 <label for="student_id">Student ID:</label>
-                                <input type="text" name="student_id" class="form-control" placeholder="Post"
+                                <input type="text" name="student_id" class="form-control" placeholder="Student ID"
                                     required>
                             </div>
                             <div class="col-lg">
@@ -80,7 +81,7 @@
                     <input type="hidden" name="stu_avatar" id="stu_avatar">
                     <div class="modal-body p-4 bg-light">
                         <div class="my-2">
-                            <label for="post">Post</label>
+                            <label for="post">StudentId</label>
                             <input type="text" name="stundet_id" id="student_id" class="form-control"
                                 placeholder="Student Id" required>
                         </div>
@@ -141,6 +142,40 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+         $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+        //add new stu ajax
+        $('#add_student_form').submit(function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            $('#add_student_btn').text('Adding Student..');
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('store')}}",
+                data: formData,
+                success: function(response) {
+                    if (response.status == 200) {
+                        Swal.fire(
+                            'Added',
+                            'Student Added Succesfully!',
+                            'succes'
+                        )
+                    }
+                    $('#add_student_btn').text('Add Student');
+                    $('#add_student_form')[0].reset();
+                    $('#addStudentModal').modal('hide');
+                }
+            });
+        });
+    </script>
 
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
